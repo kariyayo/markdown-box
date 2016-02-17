@@ -79,3 +79,17 @@ exports.readfile = function(filepath, callback) {
   });
 };
 
+exports.writefile = function(filepath, content, callback) {
+  client.writeFile(filepath, content, function(error, stat) {
+    if (error) {
+      console.log(error);
+    }
+    callback({
+      name: stat.name,
+      path: stat.path,
+      isFolder: stat.isFolder,
+      children: []
+    });
+  });
+};
+

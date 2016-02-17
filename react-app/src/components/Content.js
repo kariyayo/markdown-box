@@ -1,4 +1,5 @@
 var React = require('react');
+var marked = require('marked');
 
 var Navbar = require('react-bootstrap').Navbar;
 var Nav = require('react-bootstrap').Nav;
@@ -27,13 +28,16 @@ module.exports = React.createClass({
       _this.setState({content: content});
     });
   },
+  _rawMarkupContent() {
+    return {__html: marked(this.state.content, {sanitize: true})};
+  },
   render: function() {
     return (
       <div>
         <Navbar>
           <Navbar.Brand>{this.props.params.path}</Navbar.Brand>
         </Navbar>
-        <div>{this.state.content}</div>
+        <div dangerouslySetInnerHTML={this._rawMarkupContent()} />
       </div>
     );
   }

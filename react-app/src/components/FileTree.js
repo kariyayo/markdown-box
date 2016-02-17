@@ -1,4 +1,5 @@
 var React = require('react');
+var Link = require('react-router').Link;
 
 require('react-treeview/react-treeview.css');
 var TreeView = require('react-treeview');
@@ -30,7 +31,9 @@ var TreeNode = React.createClass({
       );
     } else {
       return (
-        <div key={entry.path}>{entry.name}</div>
+        <div key={entry.path}>
+          <Link to={"/viewer/preview/" + encodeURIComponent(entry.path)}>{entry.name}</Link>
+        </div>
       );
     }
   }
@@ -51,9 +54,7 @@ module.exports = React.createClass({
     var _this = this;
     strage.readdir(entry.path, function(entries) {
       var paths = entry.path.split("/").filter(function(s) { return !!s });
-      var target = {
-        children: _this.state.data
-      };
+      var target = { children: _this.state.data };
       for (i = 0; i < paths.length; i++) {
         target = target.children[paths[i]];
       }

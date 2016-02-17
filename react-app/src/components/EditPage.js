@@ -1,15 +1,21 @@
 var React = require('react');
-var marked = require('marked');
 
 var Navbar = require('react-bootstrap').Navbar;
 var Nav = require('react-bootstrap').Nav;
 var NavItem = require('react-bootstrap').NavItem;
-var LinkContainer = require('react-router-bootstrap').LinkContainer;
+var Input = require('react-bootstrap').Input;
+var Button = require('react-bootstrap').Button;
 
 var strage = require('../strage');
 
+var style = {
+  textarea: {
+    height: "400px"
+  }
+}
+
 module.exports = React.createClass({
-  displayName: "Content",
+  displayName: "EditPage",
   getInitialState: function() {
     return {content: ""};
   },
@@ -29,9 +35,6 @@ module.exports = React.createClass({
       _this.setState({content: content});
     });
   },
-  _rawMarkupContent: function() {
-    return {__html: marked(this.state.content, {sanitize: true})};
-  },
   render: function() {
     return (
       <div>
@@ -39,15 +42,12 @@ module.exports = React.createClass({
           <Navbar.Header>
             <Navbar.Brand>{this.props.params.path}</Navbar.Brand>
           </Navbar.Header>
-          <Nav pullRight>
-            <LinkContainer to={"/editor/" + encodeURIComponent(this.props.params.path)}>
-              <NavItem>Edit</NavItem>
-            </LinkContainer>
-          </Nav>
         </Navbar>
-        <div dangerouslySetInnerHTML={this._rawMarkupContent()} />
+        <Input type="textarea" style={style.textarea} value={this.state.content} />
+        <Button bsStyle="primary">Submit</Button>
       </div>
     );
   }
 });
+
 

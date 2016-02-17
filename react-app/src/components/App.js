@@ -1,6 +1,11 @@
 var React = require('react');
 
+var Grid = require('react-bootstrap').Grid;
+var Row = require('react-bootstrap').Row;
+var Col = require('react-bootstrap').Col;
+
 var Header = require('./Header');
+var FileTree = require('./FileTree');
 
 module.exports = React.createClass({
   displayName: "App",
@@ -8,7 +13,20 @@ module.exports = React.createClass({
     return (
       <div>
         <Header />
-        {this.props.children}
+        <Grid>
+          <Row className="show-grid">
+            <Col
+                md={2}
+                xs={12}>
+              <FileTree />
+            </Col>
+            <Col
+                md={10}
+                xs={12}>
+              {this.props.children}
+            </Col>
+          </Row>
+        </Grid>
       </div>
     );
   }

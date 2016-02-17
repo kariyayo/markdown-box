@@ -7,6 +7,9 @@ var strage = require('../strage');
 
 var TreeNode = React.createClass({
   displayName: "TreeNode",
+  _onClick: function() {
+    this.props.onClick(this.props.entry);
+  },
   render: function() {
     var entry = this.props.entry;
     if (entry.isFolder) {
@@ -14,10 +17,11 @@ var TreeNode = React.createClass({
         <TreeView
             key={entry.path}
             nodeLabel={entry.name}
+            onClick={this._onClick}
         >
           {this.props.entry.children.map(function(d, i) {
             return (
-              <TreeNode key={i} entry={d} />
+              <TreeNode key={i} entry={d} onClick={this._onClick} />
             );
           })}
         </TreeView>
@@ -41,12 +45,16 @@ module.exports = React.createClass({
       _this.setState({data: entries});
     });
   },
+  onNodeClick: function(entry) {
+    console.log(entry);
+  },
   render: function() {
+    var _this = this;
     return (
       <div>
         {this.state.data.map(function(d, i) {
           return (
-            <TreeNode key={i} entry={d} />
+            <TreeNode key={i} entry={d} onClick={_this.onNodeClick} />
           );
         })}
       </div>

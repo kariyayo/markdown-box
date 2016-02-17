@@ -4,8 +4,20 @@ var Navbar = require('react-bootstrap').Navbar;
 var Nav = require('react-bootstrap').Nav;
 var NavItem = require('react-bootstrap').NavItem;
 
+var strage = require('../strage');
+
 module.exports = React.createClass({
   displayName: "Header",
+  getInitialState: function() {
+    return {userInfo: {}};
+  },
+  componentDidMount: function() {
+    var _this = this;
+    strage.userInfo(function(userInfo) {
+      console.log(userInfo);
+      _this.setState({userInfo: userInfo});
+    });
+  },
   render: function() {
     return (
       <div>
@@ -13,6 +25,9 @@ module.exports = React.createClass({
           <Navbar.Header>
             <Navbar.Brand>MD-Box</Navbar.Brand>
           </Navbar.Header>
+          <Nav pullRight>
+            <NavItem href="https://www.dropbox.com/">{this.state.userInfo.name}</NavItem>
+          </Nav>
         </Navbar>
       </div>
     );

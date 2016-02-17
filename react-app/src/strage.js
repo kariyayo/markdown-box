@@ -28,6 +28,20 @@ var dropboxCallback = function(callback) {
   };
 };
 
+exports.userInfo = function(callback) {
+  exec(function() {
+    client.getAccountInfo(function(error, accountInfo) {
+      if (error) {
+        console.log(error);
+      } else {
+        callback({
+          name: accountInfo.name
+        });
+      }
+    });
+  });
+};
+
 exports.rootFiles = function(f) {
   exec(function() {
     client.readdir('/', dropboxCallback(f));

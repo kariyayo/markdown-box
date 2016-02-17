@@ -22,9 +22,9 @@ var TreeNode = React.createClass({
             nodeLabel={entry.name}
             onClick={this._onClick}
         >
-          {Object.keys(this.props.entry.children).map(function(key, i) {
+          {this.props.entry.children.map(function(child, i) {
             return (
-              <TreeNode key={i} entry={_this.props.entry.children[key]} onClick={_this.props.onClick} />
+              <TreeNode key={i} entry={child} onClick={_this.props.onClick} />
             );
           })}
         </TreeView>
@@ -53,12 +53,7 @@ module.exports = React.createClass({
   onNodeClick: function(entry) {
     var _this = this;
     strage.readdir(entry.path, function(entries) {
-      var paths = entry.path.split("/").filter(function(s) { return !!s });
-      var target = { children: _this.state.data };
-      for (i = 0; i < paths.length; i++) {
-        target = target.children[paths[i]];
-      }
-      target.children = entries;
+      entry.children = entries;
       _this.setState({data: _this.state.data});
     });
   },
@@ -66,9 +61,9 @@ module.exports = React.createClass({
     var _this = this;
     return (
       <div>
-        {Object.keys(_this.state.data).map(function(key, i) {
+        {this.state.data.map(function(entry, i) {
           return (
-            <TreeNode key={i} entry={_this.state.data[key]} onClick={_this.onNodeClick} />
+            <TreeNode key={i} entry={entry} onClick={_this.onNodeClick} />
           );
         })}
       </div>

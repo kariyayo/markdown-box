@@ -47,16 +47,14 @@ var readdir = function(dirpath, callback) {
           return d.promise();
         });
         $.when.apply(null, ds).done(function() {
-          var stats = {}
-          for (i = 0; i < arguments.length; i++) {
-            var s = arguments[i]
-            stats[s.name] = {
+          var stats = Array.prototype.slice.apply(arguments).map(function(s) {
+            return {
               name: s.name,
               path: s.path,
               isFolder: s.isFolder,
-              children: {}
-            }
-          }
+              children: []
+            };
+          });
           callback(stats);
         });
       }

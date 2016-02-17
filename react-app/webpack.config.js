@@ -10,6 +10,7 @@ module.exports = {
   },
   plugins: [
     new webpack.ProvidePlugin({
+      Dropbox: 'dropbox',
       $: 'jquery',
       jQuery: 'jquery'
     })

@@ -17,14 +17,16 @@ var TreeNode = React.createClass({
     if (entry.isFolder) {
       return (
         <TreeView
-            defaultCollapsed={true}
+            defaultCollapsed
             key={entry.path}
             nodeLabel={entry.name}
-            onClick={this._onClick}
-        >
+            onClick={this._onClick}>
           {this.props.entry.children.map(function(child, i) {
             return (
-              <TreeNode key={i} entry={child} onClick={_this.props.onClick} />
+              <TreeNode
+                  entry={child}
+                  key={i}
+                  onClick={_this.props.onClick} />
             );
           })}
         </TreeView>
@@ -63,7 +65,10 @@ module.exports = React.createClass({
       <div>
         {this.state.data.map(function(entry, i) {
           return (
-            <TreeNode key={i} entry={entry} onClick={_this.onNodeClick} />
+            <TreeNode
+                entry={entry}
+                key={i}
+                onClick={_this.onNodeClick} />
           );
         })}
       </div>

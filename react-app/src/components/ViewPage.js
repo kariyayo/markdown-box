@@ -15,14 +15,12 @@ module.exports = React.createClass({
         <Row className="show-grid">
           <Col
               md={2}
-              xs={12}
-          >
+              xs={12}>
             <FileTree />
           </Col>
           <Col
               md={10}
-              xs={12}
-          >
+              xs={12}>
             {this.props.children}
           </Col>
         </Row>

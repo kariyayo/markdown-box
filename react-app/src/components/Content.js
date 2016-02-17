@@ -28,7 +28,7 @@ module.exports = React.createClass({
       _this.setState({content: content});
     });
   },
-  _rawMarkupContent() {
+  _rawMarkupContent: function() {
     return {__html: marked(this.state.content, {sanitize: true})};
   },
   render: function() {

@@ -32,32 +32,43 @@ exports.userInfo = function(callback) {
   });
 };
 
-exports.rootFiles = function(callback) {
+
+var readdir = function(dirpath, callback) {
   exec(function() {
-    client.readdir('/', function(error, entries) {
+    client.readdir(dirpath, function(error, entries) {
       if (error) {
         console.log(error);
       } else {
         var ds = entries.map(function(entry) {
           var d = new $.Deferred;
-          client.stat(entry, function(error, stat) {
+          client.stat(dirpath + '/' + entry, function(error, stat) {
             d.resolve(stat);
           });
           return d.promise();
         });
         $.when.apply(null, ds).done(function() {
-          var stats = Array.prototype.slice.apply(arguments);
-          callback(stats.map(function(stat) {
-            return {
-              name: stat.name,
-              path: stat.path,
-              isFolder: stat.isFolder,
-              children: []
-            };
-          }));
+          var stats = {}
+          for (i = 0; i < arguments.length; i++) {
+            var s = arguments[i]
+            stats[s.name] = {
+              name: s.name,
+              path: s.path,
+              isFolder: s.isFolder,
+              children: {}
+            }
+          }
+          callback(stats);
         });
       }
     });
   });
+};
+
+exports.rootFiles = function(callback) {
+  readdir('/', callback);
+};
+
+exports.readdir = function(dirpath, callback) {
+  readdir(dirpath, callback);
 };
 

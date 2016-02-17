@@ -70,3 +70,12 @@ exports.readdir = function(dirpath, callback) {
   readdir(dirpath, callback);
 };
 
+exports.readfile = function(filepath, callback) {
+  client.readFile(filepath, function(error, data) {
+    if (error) {
+      console.log(error);
+    }
+    callback(data);
+  });
+};
+

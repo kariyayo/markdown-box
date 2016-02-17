@@ -5,6 +5,31 @@ var TreeView = require('react-treeview');
 
 var strage = require('../strage');
 
+var TreeNode = React.createClass({
+  displayName: "TreeNode",
+  render: function() {
+    var entry = this.props.entry;
+    if (entry.isFolder) {
+      return (
+        <TreeView
+            key={entry.path}
+            nodeLabel={entry.name}
+        >
+          {this.props.entry.children.map(function(d, i) {
+            return (
+              <TreeNode key={i} entry={d} />
+            );
+          })}
+        </TreeView>
+      );
+    } else {
+      return (
+        <div key={entry.path}>{entry.name}</div>
+      );
+    }
+  }
+});
+
 module.exports = React.createClass({
   displayName: "FileTree",
   getInitialState: function() {
@@ -19,15 +44,13 @@ module.exports = React.createClass({
   render: function() {
     return (
       <div>
-        {this.state.data.map(function(s, i) {
+        {this.state.data.map(function(d, i) {
           return (
-            <TreeView
-                key={s + '|' + i}
-                nodeLabel={s}
-            />
+            <TreeNode key={i} entry={d} />
           );
         })}
       </div>
     );
   }
 });
+

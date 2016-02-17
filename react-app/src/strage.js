@@ -18,16 +18,6 @@ var exec = function(f) {
   }
 };
 
-var dropboxCallback = function(callback) {
-  return function(error, data) {
-    if (error) {
-      console.log(error);
-    } else {
-      callback(data);
-    }
-  };
-};
-
 exports.userInfo = function(callback) {
   exec(function() {
     client.getAccountInfo(function(error, accountInfo) {
@@ -42,9 +32,32 @@ exports.userInfo = function(callback) {
   });
 };
 
-exports.rootFiles = function(f) {
+exports.rootFiles = function(callback) {
   exec(function() {
-    client.readdir('/', dropboxCallback(f));
+    client.readdir('/', function(error, entries) {
+      if (error) {
+        console.log(error);
+      } else {
+        var ds = entries.map(function(entry) {
+          var d = new $.Deferred;
+          client.stat(entry, function(error, stat) {
+            d.resolve(stat);
+          });
+          return d.promise();
+        });
+        $.when.apply(null, ds).done(function() {
+          var stats = Array.prototype.slice.apply(arguments);
+          callback(stats.map(function(stat) {
+            return {
+              name: stat.name,
+              path: stat.path,
+              isFolder: stat.isFolder,
+              children: []
+            };
+          }));
+        });
+      }
+    });
   });
 };
 

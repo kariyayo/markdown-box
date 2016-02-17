@@ -30,7 +30,7 @@ module.exports = React.createClass({
     });
   },
   _rawMarkupContent: function() {
-    return {__html: marked(this.state.content, {sanitize: true})};
+    return {__html: marked(this.state.content, {sanitize: false})};
   },
   render: function() {
     return (

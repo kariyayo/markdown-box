@@ -74,8 +74,9 @@ exports.readfile = function(filepath, callback) {
   client.readFile(filepath, function(error, data) {
     if (error) {
       console.log(error);
+    } else {
+      callback(data);
     }
-    callback(data);
   });
 };
 
@@ -83,13 +84,37 @@ exports.writefile = function(filepath, content, callback) {
   client.writeFile(filepath, content, function(error, stat) {
     if (error) {
       console.log(error);
+    } else {
+      callback({
+        name: stat.name,
+        path: stat.path,
+        isFolder: stat.isFolder,
+        children: []
+      });
     }
-    callback({
-      name: stat.name,
-      path: stat.path,
-      isFolder: stat.isFolder,
-      children: []
-    });
   });
 };
 
+exports.writeimage = function(imageFile, callback) {
+  exec(function() {
+    client.stat('/__images', function(error, stat) {
+      if (error) {
+        console.log(error);
+      } else if (stat.isFile && !stat.isRemoved) {
+        console.log(stat);
+        console.log("ERROR!");
+      } else {
+        var newImagePath = '/__images/' + imageFile.name;
+        client.writeFile(newImagePath, imageFile, function(error, createdFile) {
+          if (error) {
+            console.log(error);
+          } else {
+            client.makeUrl(createdFile.path, {long: true}, function(error, data) {
+              callback(data.url.replace("www.dropbox", "dl.dropboxusercontent"));
+            });
+          }
+        });
+      }
+    });
+  });
+};

@@ -79,7 +79,8 @@ var TreeNode = React.createClass({
                 <TreeNode
                     entry={child}
                     key={i}
-                    onClick={_this.props.onClick} />
+                    onEntryClick={_this.props.onEntryClick}
+                    onToggleButtonClick={_this.props.onToggleButtonClick} />
               );
             })}
           </ul>

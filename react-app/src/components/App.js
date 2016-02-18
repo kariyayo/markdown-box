@@ -8,7 +8,7 @@ var Header = require('./Header');
 var FileTree = require('./FileTree');
 var Content = require('./Content');
 
-var strage = require('../strage');
+var storage = require('../storage');
 
 
 module.exports = React.createClass({
@@ -24,7 +24,7 @@ module.exports = React.createClass({
   },
   componentDidMount: function() {
     var _this = this;
-    strage.rootFiles(function(entries) {
+    storage.rootFiles(function(entries) {
       _this.setState({data: entries});
     });
   },
@@ -37,7 +37,7 @@ module.exports = React.createClass({
   },
   _fetchChildren: function(entry) {
     var _this = this;
-    strage.readdir(entry.path, function(entries) {
+    storage.readdir(entry.path, function(entries) {
       entry.children = entries;
       _this.setState({data: _this.state.data});
     });

@@ -4,7 +4,7 @@ var Navbar = require('react-bootstrap').Navbar;
 var Nav = require('react-bootstrap').Nav;
 var NavItem = require('react-bootstrap').NavItem;
 
-var strage = require('../strage');
+var storage = require('../storage');
 
 module.exports = React.createClass({
   displayName: "Header",
@@ -13,7 +13,7 @@ module.exports = React.createClass({
   },
   componentDidMount: function() {
     var _this = this;
-    strage.userInfo(function(userInfo) {
+    storage.userInfo(function(userInfo) {
       console.log(userInfo);
       _this.setState({userInfo: userInfo});
     });

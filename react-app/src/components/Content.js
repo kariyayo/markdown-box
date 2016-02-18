@@ -8,7 +8,7 @@ var LinkContainer = require('react-router-bootstrap').LinkContainer;
 
 var EditDialog = require('./EditDialog');
 
-var strage = require('../strage');
+var storage = require('../storage');
 
 
 module.exports = React.createClass({
@@ -33,14 +33,14 @@ module.exports = React.createClass({
     var _this = this;
     if (this.props.entry.isFolder) {
     } else {
-      strage.readfile(this.props.entry.path, function(content) {
+      storage.readfile(this.props.entry.path, function(content) {
         _this.setState({content: content});
       });
     }
   },
   _update: function(newContent) {
     var _this = this;
-    strage.writefile(this.props.entry.path, newContent, function() {
+    storage.writefile(this.props.entry.path, newContent, function() {
       _this.setState({content: newContent});
       _this.setState({showEditDialog: false});
     });

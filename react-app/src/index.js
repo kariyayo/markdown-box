@@ -10,19 +10,12 @@ require('bootstrap/dist/css/bootstrap.css');
 require('bootstrap');
 
 var App = require('./components/App');
-var ViewPage = require('./components/ViewPage');
-var Content = require('./components/Content');
-var EditPage = require('./components/EditPage');
 
 ReactDOM.render(
   <Router history={browserHistory}>
-    <Route name="TOP" path="/" component={App}>
-      <IndexRedirect from="*" to="viewer" />
-      <Route path="viewer" component={ViewPage}>
-        <Route path="preview/:path" component={Content} />
-      </Route>
-      <Route path="editor/:path" component={EditPage} />
-    </Route>
+    <Route name="TOP" path="/" component={App} />
+    <Route path="viewer" component={App} />
+    <Route path="viewer/:path" component={App} />
   </Router>,
   document.getElementById('root')
 );

@@ -1,8 +1,6 @@
 var React = require('react');
 var Link = require('react-router').Link;
 
-var strage = require('../strage');
-
 
 var style = {
   rootTreeContainer: {
@@ -21,6 +19,10 @@ var style = {
   },
   toggleButton: {
     cursor: "pointer"
+  },
+  entryName: {
+    cursor: "pointer",
+    textDecoration: "underline"
   }
 };
 
@@ -29,8 +31,11 @@ var TreeNode = React.createClass({
   getInitialState: function() {
     return {collapse: true};
   },
-  _onClick: function() {
-    this.props.onClick(this.props.entry);
+  _onEntryClick: function() {
+    this.props.onEntryClick(this.props.entry);
+  },
+  _onToggleButtonClick: function() {
+    this.props.onToggleButtonClick(this.props.entry);
     this.setState({collapse: !this.state.collapse});
   },
   _showChildStyle: function() {
@@ -56,12 +61,14 @@ var TreeNode = React.createClass({
             key={entry.path}
             style={style.node}>
           <div>
-            <Link to={"/viewer/preview/" + encodeURIComponent(entry.path)}>
+            <span
+                onClick={this._onEntryClick}
+                style={style.entryName}>
               {entry.name}
-            </Link>
+            </span>
             {" "}
             <span
-              onClick={this._onClick}
+              onClick={this._onToggleButtonClick}
               style={style.toggleButton}>
               {this._allow()}
             </span>
@@ -83,9 +90,11 @@ var TreeNode = React.createClass({
         <li
             key={entry.path}
             style={style.node}>
-          <Link to={"/viewer/preview/" + encodeURIComponent(entry.path)}>
+          <span
+              onClick={this._onEntryClick}
+              style={style.entryName}>
             {entry.name}
-          </Link>
+          </span>
         </li>
       );
     }
@@ -94,32 +103,17 @@ var TreeNode = React.createClass({
 
 module.exports = React.createClass({
   displayName: "FileTree",
-  getInitialState: function() {
-    return {data: []};
-  },
-  componentDidMount: function() {
-    var _this = this;
-    strage.rootFiles(function(entries) {
-      _this.setState({data: entries});
-    });
-  },
-  onNodeClick: function(entry) {
-    var _this = this;
-    strage.readdir(entry.path, function(entries) {
-      entry.children = entries;
-      _this.setState({data: _this.state.data});
-    });
-  },
   render: function() {
     var _this = this;
     return (
       <ul style={style.rootTreeContainer}>
-        {this.state.data.map(function(entry, i) {
+        {this.props.entries.map(function(entry, i) {
           return (
             <TreeNode
                 entry={entry}
                 key={i}
-                onClick={_this.onNodeClick} />
+                onEntryClick={_this.props.onEntryClick}
+                onToggleButtonClick={_this.props.onToggleButtonClick} />
           );
         })}
       </ul>

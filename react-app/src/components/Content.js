@@ -6,28 +6,50 @@ var Nav = require('react-bootstrap').Nav;
 var NavItem = require('react-bootstrap').NavItem;
 var LinkContainer = require('react-router-bootstrap').LinkContainer;
 
+var EditDialog = require('./EditDialog');
+
 var strage = require('../strage');
+
 
 module.exports = React.createClass({
   displayName: "Content",
   getInitialState: function() {
-    return {content: ""};
+    return {
+      content: '',
+      showEditDialog: false
+    };
   },
   componentDidMount: function() {
-    this._fetch();
+    this._fetchContent();
   },
   componentDidUpdate: function(prevProps) {
-    var oldPath = prevProps.params.path;
-    var newPath = this.props.params.path;
-    if (oldPath != newPath) {
-      this._fetch();
+    var oldEntry = prevProps.entry;
+    var newEntry = this.props.entry;
+    if (newEntry && oldEntry.path != newEntry.path) {
+      this._fetchContent(newEntry.path);
     }
   },
-  _fetch: function() {
+  _fetchContent: function() {
     var _this = this;
-    strage.readfile(this.props.params.path, function(content) {
-      _this.setState({content: content});
+    if (this.props.entry.isFolder) {
+    } else {
+      strage.readfile(this.props.entry.path, function(content) {
+        _this.setState({content: content});
+      });
+    }
+  },
+  _update: function(newContent) {
+    var _this = this;
+    strage.writefile(this.props.entry.path, newContent, function() {
+      _this.setState({content: newContent});
+      _this.setState({showEditDialog: false});
     });
+  },
+  _showDialog: function() {
+    this.setState({showEditDialog: true});
+  },
+  _hideDialog: function() {
+    this.setState({showEditDialog: false});
   },
   _rawMarkupContent: function() {
     return {__html: marked(this.state.content, {sanitize: false})};
@@ -37,15 +59,18 @@ module.exports = React.createClass({
       <div>
         <Navbar fluid>
           <Navbar.Header>
-            <Navbar.Brand>{this.props.params.path}</Navbar.Brand>
+            <Navbar.Brand>{this.props.entry.path || "/"}</Navbar.Brand>
           </Navbar.Header>
           <Nav pullRight>
-            <LinkContainer to={"/editor/" + encodeURIComponent(this.props.params.path)}>
-              <NavItem>Edit</NavItem>
-            </LinkContainer>
+            <NavItem onClick={this._showDialog}>Edit</NavItem>
           </Nav>
         </Navbar>
         <div dangerouslySetInnerHTML={this._rawMarkupContent()} />
+        <EditDialog
+            content={this.state.content}
+            closeAction={this._hideDialog}
+            show={this.state.showEditDialog}
+            submitAction={this._update} />
       </div>
     );
   }

@@ -22,21 +22,33 @@ module.exports = React.createClass({
   _hideCreateDialog: function() {
     this.setState({isDisplayCreateDialog: false});
   },
+  _onListItemClick: function() {
+    this.props.selectEntryAction(this.props.entry);
+  },
   render: function() {
+    var _this = this;
     return (
       <div>
         <Navbar fluid>
           <Navbar.Header>
-            <Navbar.Brand>{this.props.entry.path}</Navbar.Brand>
+            <Navbar.Brand>{_this.props.entry.path}</Navbar.Brand>
           </Navbar.Header>
           <Nav pullRight>
-            <NavItem onClick={this._showCreateDialog}>Create file</NavItem>
-            <NavItem onClick={this._showDialog}>Create folder</NavItem>
+            <NavItem onClick={_this._showCreateDialog}>Create file</NavItem>
+            <NavItem onClick={_this._showDialog}>Create folder</NavItem>
           </Nav>
         </Navbar>
         <ListGroup>
-          {this.props.entry.children.map(function(entry, i) {
-            return (<ListGroupItem key={i}>{entry.name}</ListGroupItem>);
+          {_this.props.entry.children.map(function(entry, i) {
+            return (
+              <ListGroupItem
+                  key={i}
+                  onClick={function() {
+                    _this.props.selectEntryAction(entry)
+                  }}>
+                {entry.name + (entry.isFolder ? "/" : "")}
+              </ListGroupItem>
+            );
           })}
         </ListGroup>
         <InputDialog

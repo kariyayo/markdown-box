@@ -45,7 +45,8 @@ module.exports = React.createClass({
       return (
         <FolderContent
             createEntryAction={this.props.createEntry}
-            entry={this.props.entry} />
+            entry={this.props.entry}
+            selectEntryAction={this.props.onEntryClick} />
       );
     } else {
       return (

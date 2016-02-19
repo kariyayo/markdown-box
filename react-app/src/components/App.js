@@ -74,14 +74,15 @@ module.exports = React.createClass({
               <FileTree
                   entries={this.state.data}
                   onEntryClick={this._selectEntry}
-                  onToggleButtonClick={this._fetchChildren}/>
+                  onToggleButtonClick={this._fetchChildren} />
             </Col>
             <Col
                 md={10}
                 xs={12}>
               <Content
                   createEntry={this._createEntry}
-                  entry={this.state.selectedEntry} />
+                  entry={this.state.selectedEntry}
+                  onEntryClick={this._selectEntry} />
             </Col>
           </Row>
         </Grid>

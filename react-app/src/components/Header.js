@@ -14,7 +14,6 @@ module.exports = React.createClass({
   componentDidMount: function() {
     var _this = this;
     storage.userInfo(function(userInfo) {
-      console.log(userInfo);
       _this.setState({userInfo: userInfo});
     });
   },
@@ -23,7 +22,7 @@ module.exports = React.createClass({
       <div>
         <Navbar>
           <Navbar.Header>
-            <Navbar.Brand>MD-Box</Navbar.Brand>
+            <Navbar.Brand>Markdown-box</Navbar.Brand>
           </Navbar.Header>
           <Nav pullRight>
             <NavItem href="https://www.dropbox.com/">{this.state.userInfo.name}</NavItem>

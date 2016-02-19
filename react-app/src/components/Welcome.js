@@ -15,8 +15,8 @@ module.exports = React.createClass({
         <Row className="show-grid">
           <Col xs={12} md={12}>
             <Jumbotron>
-              <h1>MD-Box</h1>
-              <p>{'MD-Box will in a little happy to your markdown in Dropbox'}</p>
+              <h1>Markdown-box</h1>
+              <p>{'Markdown-box will in a little happy to your markdown in Dropbox'}</p>
               <p>
                 <LinkContainer to={'/viewer'}>
                   <Button bsStyle="primary">{'Try out'}</Button>

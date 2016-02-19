@@ -5,7 +5,7 @@ var Navbar = require('react-bootstrap').Navbar;
 var Nav = require('react-bootstrap').Nav;
 var NavItem = require('react-bootstrap').NavItem;
 
-var InputDialog = require('./EditDialog');
+var InputFileDialog = require('./InputFileDialog');
 
 
 module.exports = React.createClass({
@@ -40,7 +40,7 @@ module.exports = React.createClass({
           </Nav>
         </Navbar>
         <div dangerouslySetInnerHTML={this._rawMarkupContent()} />
-        <InputDialog
+        <InputFileDialog
             content={this.props.content}
             closeAction={this._hideEditDialog}
             isEdit={true}

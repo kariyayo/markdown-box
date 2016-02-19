@@ -6,7 +6,7 @@ var NavItem = require('react-bootstrap').NavItem;
 var ListGroup = require('react-bootstrap').ListGroup;
 var ListGroupItem = require('react-bootstrap').ListGroupItem;
 
-var InputFileDialog = require('./EditDialog');
+var InputFileDialog = require('./InputFileDialog');
 var InputFolderDialog = require('./InputFolderDialog');
 
 

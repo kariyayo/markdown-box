@@ -1,5 +1,3 @@
-//var Dropbox = require('dropbox');
-//
 var client = new Dropbox.Client({ key: "1b52y5k79ekfs63" });
 
 var exec = function(f) {
@@ -7,11 +5,9 @@ var exec = function(f) {
     f();
   } else {
     client.authenticate(function(error, data) {
-      console.log("##### authenticate #####");
       if (error) {
         console.log(error);
       } else {
-        console.log(data);
         f();
       }
     });

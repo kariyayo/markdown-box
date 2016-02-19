@@ -1,12 +1,7 @@
 var React = require('react');
-var marked = require('marked');
 
-var Navbar = require('react-bootstrap').Navbar;
-var Nav = require('react-bootstrap').Nav;
-var NavItem = require('react-bootstrap').NavItem;
-var LinkContainer = require('react-router-bootstrap').LinkContainer;
-
-var EditDialog = require('./EditDialog');
+var FileContent = require('./FileContent');
+var FolderContent = require('./FolderContent');
 
 var storage = require('../storage');
 
@@ -15,8 +10,7 @@ module.exports = React.createClass({
   displayName: "Content",
   getInitialState: function() {
     return {
-      content: '',
-      showEditDialog: false
+      content: ''
     };
   },
   componentDidMount: function() {
@@ -32,47 +26,35 @@ module.exports = React.createClass({
   _fetchContent: function() {
     var _this = this;
     if (this.props.entry.isFolder) {
+      _this.setState({content: ""});
     } else {
       storage.readfile(this.props.entry.path, function(content) {
         _this.setState({content: content});
       });
     }
   },
-  _update: function(newContent) {
+  _updateContent: function(newContent) {
     var _this = this;
     storage.writefile(this.props.entry.path, newContent, function() {
       _this.setState({content: newContent});
-      _this.setState({showEditDialog: false});
+      _this.setState({isDisplayEditDialog: false});
     });
   },
-  _showDialog: function() {
-    this.setState({showEditDialog: true});
-  },
-  _hideDialog: function() {
-    this.setState({showEditDialog: false});
-  },
-  _rawMarkupContent: function() {
-    return {__html: marked(this.state.content, {sanitize: false})};
-  },
   render: function() {
-    return (
-      <div>
-        <Navbar fluid>
-          <Navbar.Header>
-            <Navbar.Brand>{this.props.entry.path || "/"}</Navbar.Brand>
-          </Navbar.Header>
-          <Nav pullRight>
-            <NavItem onClick={this._showDialog}>Edit</NavItem>
-          </Nav>
-        </Navbar>
-        <div dangerouslySetInnerHTML={this._rawMarkupContent()} />
-        <EditDialog
+    if (this.props.entry.isFolder) {
+      return (
+        <FolderContent
+            createEntryAction={this.props.createEntry}
+            entry={this.props.entry} />
+      );
+    } else {
+      return (
+        <FileContent
             content={this.state.content}
-            closeAction={this._hideDialog}
-            show={this.state.showEditDialog}
-            submitAction={this._update} />
-      </div>
-    );
+            entry={this.props.entry}
+            updateContentAction={this._updateContent} />
+      );
+    }
   }
 });
 

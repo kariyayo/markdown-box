@@ -18,7 +18,9 @@ module.exports = React.createClass({
       data: [],
       selectedEntry: {
         isFolder: true,
-        name: ""
+        path: "/",
+        name: "/",
+        children: []
       }
     };
   },
@@ -26,6 +28,12 @@ module.exports = React.createClass({
     var _this = this;
     storage.rootFiles(function(entries) {
       _this.setState({data: entries});
+      _this.setState({selectedEntry: {
+        isFolder: true,
+        path: "/",
+        name: "/",
+        children: entries
+      }});
     });
   },
   componentDidUpdate: function(prevProps) {
@@ -44,6 +52,15 @@ module.exports = React.createClass({
   },
   _selectEntry: function(entry) {
     this.setState({selectedEntry: entry});
+    if (entry.isFolder && entry.children.length == 0) {
+      this._fetchChildren(entry);
+    }
+  },
+  _createFile: function(parentEntry, name, content) {
+    var _this = this;
+    storage.writefile(parentEntry.path + "/" + name, content, function() {
+      _this._fetchChildren(parentEntry);
+    });
   },
   render: function() {
     return (
@@ -62,7 +79,9 @@ module.exports = React.createClass({
             <Col
                 md={10}
                 xs={12}>
-              <Content entry={this.state.selectedEntry} />
+              <Content
+                  createEntry={this._createEntry}
+                  entry={this.state.selectedEntry} />
             </Col>
           </Row>
         </Grid>

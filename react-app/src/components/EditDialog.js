@@ -45,6 +45,10 @@ module.exports = React.createClass({
     return leftPart + "\n\n" + imageStr + "\n\n" + rightPart;
   },
   render: function() {
+    var nameText;
+    if (!this.props.isEdit) {
+      nameText = (<Input ref="name" type="text" placeholder="name" />);
+    }
     return (
       <Modal
           bsSize="large"
@@ -54,7 +58,8 @@ module.exports = React.createClass({
           <Modal.Title>Edit</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Input ref="content" type="textarea" style={style.textarea} defaultValue={this.props.content} />
+          {nameText}
+          <Input ref="content" type="textarea" style={style.textarea} defaultValue={this.props.content} placeholder="Markdown content" />
           <Input ref="file" type="file" style={style.fileForm} onChange={this._attachImage} />
           <Button onClick={this._showFiler}>+ Attach image</Button>
         </Modal.Body>

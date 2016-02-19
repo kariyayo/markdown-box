@@ -33,18 +33,17 @@ module.exports = React.createClass({
       });
     }
   },
-  _updateContent: function(newContent) {
+  _updateContent: function(params) {
     var _this = this;
-    storage.writefile(this.props.entry.path, newContent, function() {
-      _this.setState({content: newContent});
-      _this.setState({isDisplayEditDialog: false});
+    storage.writefile(this.props.entry.path, params.content, function() {
+      _this.setState({content: params.content});
     });
   },
   render: function() {
     if (this.props.entry.isFolder) {
       return (
         <FolderContent
-            createEntryAction={this.props.createEntry}
+            createFileAction={this.props.createFileAction}
             entry={this.props.entry}
             selectEntryAction={this.props.onEntryClick} />
       );

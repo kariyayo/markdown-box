@@ -56,10 +56,10 @@ module.exports = React.createClass({
       this._fetchChildren(entry);
     }
   },
-  _createFile: function(parentEntry, name, content) {
+  _createFile: function(params) {
     var _this = this;
-    storage.writefile(parentEntry.path + "/" + name, content, function() {
-      _this._fetchChildren(parentEntry);
+    storage.writefile(params.parentFolder.path + "/" + params.name, params.content, function() {
+      _this._fetchChildren(params.parentFolder);
     });
   },
   render: function() {
@@ -80,7 +80,7 @@ module.exports = React.createClass({
                 md={10}
                 xs={12}>
               <Content
-                  createEntry={this._createEntry}
+                  createFileAction={this._createFile}
                   entry={this.state.selectedEntry}
                   onEntryClick={this._selectEntry} />
             </Col>

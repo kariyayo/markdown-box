@@ -25,6 +25,10 @@ module.exports = React.createClass({
   _onListItemClick: function() {
     this.props.selectEntryAction(this.props.entry);
   },
+  _onSubmit: function(params) {
+    this.props.createFileAction(params);
+    this._hideCreateDialog();
+  },
   render: function() {
     var _this = this;
     return (
@@ -55,7 +59,8 @@ module.exports = React.createClass({
             content={""}
             closeAction={this._hideCreateDialog}
             show={this.state.isDisplayCreateDialog}
-            submitAction={this.props.createEntryAction} />
+            submitAction={this._onSubmit}
+            parentFolder={this.props.entry} />
       </div>
     );
   }

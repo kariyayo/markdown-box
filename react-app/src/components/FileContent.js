@@ -24,6 +24,10 @@ module.exports = React.createClass({
   _rawMarkupContent: function() {
     return {__html: marked(this.props.content, {sanitize: false})};
   },
+  _onSubmit: function(params) {
+    this.props.updateContentAction(params);
+    this._hideEditDialog();
+  },
   render: function() {
     return (
       <div>
@@ -39,8 +43,9 @@ module.exports = React.createClass({
         <InputDialog
             content={this.props.content}
             closeAction={this._hideEditDialog}
-            show={this.state.showEditDialog}
-            submitAction={this.props.updateContentAction} />
+            isEdit={true}
+            show={this.state.isDisplayEditDialog}
+            submitAction={this._onSubmit} />
       </div>
     );
   }

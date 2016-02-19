@@ -20,8 +20,16 @@ var style = {
 module.exports = React.createClass({
   displayName: "EditDialog",
   _onSubmit: function() {
+    var name;
+    if (!this.props.isEdit) {
+      name = this.refs.name.refs.input.value;
+    }
     var content = this.refs.content.refs.input.value;
-    this.props.submitAction(content);
+    this.props.submitAction({
+      content: content,
+      name: name,
+      parentFolder: this.props.parentFolder
+    });
   },
   _showFiler: function() {
     var domFileInput = ReactDOM.findDOMNode(this.refs.file);

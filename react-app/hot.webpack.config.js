@@ -14,6 +14,7 @@ module.exports = {
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
     new webpack.ProvidePlugin({
+      dropbox: 'dropbox',
       $: 'jquery',
       jQuery: 'jquery'
     })

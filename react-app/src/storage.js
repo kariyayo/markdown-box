@@ -68,28 +68,45 @@ exports.readdir = function(dirpath, callback) {
   readdir(dirpath, callback);
 };
 
+exports.readEntry = function(path, callback) {
+  exec(function() {
+    client.stat(path, function(error, stat) {
+      callback({
+        name: stat.name == '' ? '/' : stat.name,
+        path: stat.path == '' ? '/' : stat.path,
+        isFolder: stat.isFolder,
+        children: []
+      });
+    });
+  });
+};
+
 exports.readfile = function(filepath, callback) {
-  client.readFile(filepath, function(error, data) {
-    if (error) {
-      console.log(error);
-    } else {
-      callback(data);
-    }
+  exec(function() {
+    client.readFile(filepath, function(error, data) {
+      if (error) {
+        console.log(error);
+      } else {
+        callback(data);
+      }
+    });
   });
 };
 
 exports.writefile = function(filepath, content, callback) {
-  client.writeFile(filepath, content, function(error, stat) {
-    if (error) {
-      console.log(error);
-    } else {
-      callback({
-        name: stat.name,
-        path: stat.path,
-        isFolder: stat.isFolder,
-        children: []
-      });
-    }
+  exec(function() {
+    client.writeFile(filepath, content, function(error, stat) {
+      if (error) {
+        console.log(error);
+      } else {
+        callback({
+          name: stat.name,
+          path: stat.path,
+          isFolder: stat.isFolder,
+          children: []
+        });
+      }
+    });
   });
 };
 

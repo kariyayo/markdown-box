@@ -59,7 +59,7 @@ module.exports = React.createClass({
     });
   },
   _selectEntry: function(entry) {
-    this.context.router.push('/viewer/' + encodeURIComponent(entry.path));
+    this.context.router.push('viewer/' + encodeURIComponent(entry.path));
   },
   _createFile: function(params) {
     var _this = this;

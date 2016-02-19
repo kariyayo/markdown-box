@@ -26,7 +26,7 @@ module.exports = React.createClass({
                 <h1>Markdown-box</h1>
                 <p>{'Markdown-box will in a little happy to your markdown in Dropbox'}</p>
                 <p>
-                  <LinkContainer to={'/viewer'}>
+                  <LinkContainer to={'viewer'}>
                     <Button bsStyle="primary">{'Try out'}</Button>
                   </LinkContainer>
                 </p>

@@ -39,7 +39,9 @@ var readdir = function(dirpath, callback) {
       if (error) {
         console.log(error);
       } else {
-        var ds = entries.map(function(entry) {
+        var ds = entries.filter(function(entry) {
+          return !entry.startsWith('__');
+        }).map(function(entry) {
           var d = new $.Deferred;
           client.stat(dirpath + '/' + entry, function(error, stat) {
             d.resolve(stat);

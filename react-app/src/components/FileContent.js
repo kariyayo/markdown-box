@@ -41,9 +41,9 @@ module.exports = React.createClass({
         </Navbar>
         <div dangerouslySetInnerHTML={this._rawMarkupContent()} />
         <InputFileDialog
-            content={this.props.content}
             closeAction={this._hideEditDialog}
-            isEdit={true}
+            content={this.props.content}
+            isEdit
             show={this.state.isDisplayEditDialog}
             submitAction={this._onSubmit} />
       </div>

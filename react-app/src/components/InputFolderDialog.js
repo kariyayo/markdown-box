@@ -17,18 +17,15 @@ module.exports = React.createClass({
   render: function() {
     var nameText;
     if (!this.props.isEdit) {
-      nameText = (<Input ref="name" type="text" placeholder="name" />);
+      nameText = (<Input placeholder="name" ref="name" type="text" />);
     }
     return (
-      <Modal
-          bsSize="large"
-          show={this.props.show}
-          onHide={this.props.closeAction}>
+      <Modal bsSize="large" onHide={this.props.closeAction} show={this.props.show}>
         <Modal.Header closeButton>
           <Modal.Title>Folder</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Input ref="name" type="text" placeholder="name" />
+          <Input placeholder="name" ref="name" type="text" />
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={this.props.closeAction}>Cancel</Button>

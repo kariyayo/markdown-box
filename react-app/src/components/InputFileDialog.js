@@ -15,7 +15,7 @@ var style = {
   fileForm: {
     display: "none"
   }
-}
+};
 
 module.exports = React.createClass({
   displayName: "EditDialog",
@@ -55,20 +55,20 @@ module.exports = React.createClass({
   render: function() {
     var nameText;
     if (!this.props.isEdit) {
-      nameText = (<Input ref="name" type="text" placeholder="name" />);
+      nameText = (<Input placeholder="name" ref="name" type="text" />);
     }
     return (
       <Modal
           bsSize="large"
-          show={this.props.show}
-          onHide={this.props.closeAction}>
+          onHide={this.props.closeAction}
+          show={this.props.show}>
         <Modal.Header closeButton>
           <Modal.Title>Edit</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           {nameText}
-          <Input ref="content" type="textarea" style={style.textarea} defaultValue={this.props.content} placeholder="Markdown content" />
-          <Input ref="file" type="file" style={style.fileForm} onChange={this._attachImage} />
+          <Input defaultValue={this.props.content} placeholder="Markdown content" ref="content" style={style.textarea} type="textarea" />
+          <Input onChange={this._attachImage} ref="file" style={style.fileForm} type="file" />
           <Button onClick={this._showFiler}>+ Attach image</Button>
         </Modal.Body>
         <Modal.Footer>

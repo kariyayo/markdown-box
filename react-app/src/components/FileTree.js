@@ -68,9 +68,9 @@ var TreeNode = React.createClass({
             </span>
             {" "}
             <span
-              onClick={this._onToggleButtonClick}
-              style={style.toggleButton}>
-              {this._allow()}
+                onClick={this._onToggleButtonClick}
+                style={style.toggleButton}>
+                {this._allow()}
             </span>
           </div>
           <ul style={this._showChildStyle()}>

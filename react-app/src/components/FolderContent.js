@@ -60,7 +60,7 @@ module.exports = React.createClass({
               <ListGroupItem
                   key={i}
                   onClick={function() {
-                    _this.props.selectEntryAction(entry)
+                    _this.props.selectEntryAction(entry);
                   }}>
                 {entry.name + (entry.isFolder ? "/" : "")}
               </ListGroupItem>
@@ -68,17 +68,17 @@ module.exports = React.createClass({
           })}
         </ListGroup>
         <InputFileDialog
-            content={""}
             closeAction={this._hideFileDialog}
-            show={this.state.isDispFileDialog}
-            submitAction={this._onSubmitFileDialog}
-            parentFolder={this.props.entry} />
-        <InputFolderDialog
             content={""}
+            parentFolder={this.props.entry}
+            show={this.state.isDispFileDialog}
+            submitAction={this._onSubmitFileDialog} />
+        <InputFolderDialog
             closeAction={this._hideFolderDialog}
+            content={""}
+            parentFolder={this.props.entry}
             show={this.state.isDispFolderDialog}
-            submitAction={this._onSubmitFolderDialog}
-            parentFolder={this.props.entry} />
+            submitAction={this._onSubmitFolderDialog} />
       </div>
     );
   }

@@ -44,6 +44,7 @@ module.exports = React.createClass({
       return (
         <FolderContent
             createFileAction={this.props.createFileAction}
+            createFolderAction={this.props.createFolderAction}
             entry={this.props.entry}
             selectEntryAction={this.props.onEntryClick} />
       );

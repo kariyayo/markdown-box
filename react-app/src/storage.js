@@ -118,3 +118,14 @@ exports.writeimage = function(imageFile, callback) {
     });
   });
 };
+
+exports.makedir = function(path, callback) {
+  exec(function() {
+    client.mkdir(path, function(error, data) {
+      if (error) {
+        console.log(error);
+      }
+    });
+  });
+};
+

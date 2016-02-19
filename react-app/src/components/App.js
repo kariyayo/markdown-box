@@ -62,6 +62,13 @@ module.exports = React.createClass({
       _this._fetchChildren(params.parentFolder);
     });
   },
+  _createFolder: function(params) {
+    console.log(params);
+    var _this = this;
+    storage.makedir(params.parentFolder.path + "/" + params.name, function() {
+      _this._fetchChildren(params.parentFolder);
+    });
+  },
   render: function() {
     return (
       <div>
@@ -81,6 +88,7 @@ module.exports = React.createClass({
                 xs={12}>
               <Content
                   createFileAction={this._createFile}
+                  createFolderAction={this._createFolder}
                   entry={this.state.selectedEntry}
                   onEntryClick={this._selectEntry} />
             </Col>

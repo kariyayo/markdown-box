@@ -15,10 +15,8 @@ var App = require('./components/App');
 
 ReactDOM.render(
   <Router history={browserHistory}>
-    <Route path="welcome" component={Welcome} />
-    <Route path="viewer" component={App} />
-    <Route path="viewer/:path" component={App} />
-    <Redirect from="/" to="welcome" />
+    <Route path="/" component={App} />
+    <Route path="/:path" component={App} />
   </Router>,
   document.getElementById('root')
 );

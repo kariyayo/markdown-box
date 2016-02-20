@@ -13,9 +13,6 @@ var storage = require('../storage');
 
 module.exports = React.createClass({
   displayName: "App",
-  contextTypes: {
-    router: React.PropTypes.object
-  },
   getInitialState: function() {
     return {
       data: [],
@@ -31,24 +28,8 @@ module.exports = React.createClass({
     var _this = this;
     storage.rootFiles(function(entries) {
       _this.setState({data: entries});
-      var path = _this.props.params.path || '/';
-      _this._fetch(path);
-    });
-  },
-  componentDidUpdate: function(prevProps) {
-    var oldPath = prevProps.params.path || '/';
-    var newPath = this.props.params.path || '/';
-    if (newPath && oldPath != newPath) {
-      this._fetch(newPath);
-    }
-  },
-  _fetch: function(path) {
-    var _this = this;
-    storage.readEntry(path, function(entry) {
-      _this.setState({selectedEntry: entry});
-      if (entry.isFolder && entry.children.length == 0) {
-        _this._fetchChildren(entry);
-      }
+      _this.state.selectedEntry.children = entries;
+      _this.setState({selectedEntry: _this.state.selectedEntry});
     });
   },
   _fetchChildren: function(entry) {
@@ -59,7 +40,10 @@ module.exports = React.createClass({
     });
   },
   _selectEntry: function(entry) {
-    this.context.router.push(encodeURIComponent(entry.path));
+    this.setState({selectedEntry: entry});
+    if (entry.isFolder && entry.children.length == 0) {
+      this._fetchChildren(entry);
+    }
   },
   _createFile: function(params) {
     var _this = this;

@@ -1,5 +1,7 @@
 var React = require('react');
 var marked = require('marked');
+require('highlight.js/styles/github.css');
+var highlight = require('highlight.js');
 
 var Navbar = require('react-bootstrap').Navbar;
 var Nav = require('react-bootstrap').Nav;
@@ -22,6 +24,11 @@ module.exports = React.createClass({
     this.setState({isDisplayEditDialog: false});
   },
   _rawMarkupContent: function() {
+    marked.setOptions({
+      highlight: function(code) {
+        return highlight.highlightAuto(code).value;
+      }
+    });
     return {__html: marked(this.props.content, {sanitize: false})};
   },
   _onSubmit: function(params) {

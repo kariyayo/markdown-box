@@ -1,4 +1,4 @@
-var client = new Dropbox.Client({ key: "1b52y5k79ekfs63" });
+var client = new Dropbox.Client({ key: "" });
 
 var exec = function(f) {
   if (client.isAuthenticated()) {

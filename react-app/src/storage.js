@@ -140,6 +140,7 @@ exports.makedir = function(path, callback) {
       if (error) {
         console.log(error);
       }
+      callback();
     });
   });
 };

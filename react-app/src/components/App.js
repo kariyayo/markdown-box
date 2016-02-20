@@ -25,11 +25,16 @@ module.exports = React.createClass({
     };
   },
   componentDidMount: function() {
+    this._fetchRoot();
+  },
+  _fetchRoot: function() {
     var _this = this;
     storage.rootFiles(function(entries) {
-      _this.setState({data: entries});
       _this.state.selectedEntry.children = entries;
-      _this.setState({selectedEntry: _this.state.selectedEntry});
+      _this.setState({
+        data: entries,
+        selectedEntry: _this.state.selectedEntry
+      });
     });
   },
   _fetchChildren: function(entry) {
@@ -45,16 +50,39 @@ module.exports = React.createClass({
       this._fetchChildren(entry);
     }
   },
+  _isRootFolder: function(entry) {
+    return entry.path == "/";
+  },
   _createFile: function(params) {
     var _this = this;
-    storage.writefile(params.parentFolder.path + "/" + params.name, params.content, function() {
-      _this._fetchChildren(params.parentFolder);
+    var filepath;
+    if (_this._isRootFolder(params.parentFolder)) {
+      filepath = "/" + params.name;
+    } else {
+      filepath = params.parentFolder.path + "/" + params.name;
+    }
+    storage.writefile(filepath, params.content, function() {
+      if (_this._isRootFolder(params.parentFolder)) {
+        _this._fetchRoot();
+      } else {
+        _this._fetchChildren(params.parentFolder);
+      }
     });
   },
   _createFolder: function(params) {
     var _this = this;
-    storage.makedir(params.parentFolder.path + "/" + params.name, function() {
-      _this._fetchChildren(params.parentFolder);
+    var dirpath;
+    if (_this._isRootFolder(params.parentFolder)) {
+      dirpath = "/" + params.name;
+    } else {
+      dirpath = params.parentFolder.path + "/" + params.name;
+    }
+    storage.makedir(dirpath, function() {
+      if (_this._isRootFolder(params.parentFolder)) {
+        _this._fetchRoot();
+      } else {
+        _this._fetchChildren(params.parentFolder);
+      }
     });
   },
   render: function() {

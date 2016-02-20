@@ -47,7 +47,6 @@ module.exports = React.createClass({
   },
   _insertImageMarkdown: function(originStr, imageUrl, altStr, pos) {
     var imageStr = "![" + altStr + "](" + imageUrl + ")";
-    console.log(pos);
     var leftPart = originStr.substr(0, pos);
     var rightPart = originStr.substr(pos, originStr.length);
     return leftPart + "\n\n" + imageStr + "\n\n" + rightPart;

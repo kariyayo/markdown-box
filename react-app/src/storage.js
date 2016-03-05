@@ -125,7 +125,13 @@ function writeimage(imageFile, callback) {
   exec(function() {
     client.stat('/__images', function(error, stat) {
       if (error) {
-        console.log(error);
+        if (error.status == 404) {
+          makedir('/__images', function() {
+            writeimage(imageFile, callback);
+          });
+        } else {
+          console.log(error);
+        }
       } else if (stat.isFile && !stat.isRemoved) {
         console.log(stat);
         console.log("ERROR!");

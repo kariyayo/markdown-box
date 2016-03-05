@@ -1,6 +1,17 @@
+module.exports = {
+  userInfo: userInfo,
+  rootFiles: rootFiles,
+  readdir: readdir,
+  readEntry: readEntry,
+  readfile: readfile,
+  writefile: writefile,
+  writeimage: writeimage,
+  makedir: makedir
+};
+
 var client = new Dropbox.Client({ key: "" });
 
-var exec = function(f) {
+function exec(f) {
   if (client.isAuthenticated()) {
     f();
   } else {
@@ -14,7 +25,7 @@ var exec = function(f) {
   }
 };
 
-exports.userInfo = function(callback) {
+function userInfo(callback) {
   exec(function() {
     client.getAccountInfo(function(error, accountInfo) {
       if (error) {
@@ -60,15 +71,15 @@ var readdir = function(dirpath, callback) {
   });
 };
 
-exports.rootFiles = function(callback) {
+function rootFiles(callback) {
   readdir('/', callback);
 };
 
-exports.readdir = function(dirpath, callback) {
+function readdir(dirpath, callback) {
   readdir(dirpath, callback);
 };
 
-exports.readEntry = function(path, callback) {
+function readEntry(path, callback) {
   exec(function() {
     client.stat(path, function(error, stat) {
       callback({
@@ -81,7 +92,7 @@ exports.readEntry = function(path, callback) {
   });
 };
 
-exports.readfile = function(filepath, callback) {
+function readfile(filepath, callback) {
   exec(function() {
     client.readFile(filepath, function(error, data) {
       if (error) {
@@ -93,7 +104,7 @@ exports.readfile = function(filepath, callback) {
   });
 };
 
-exports.writefile = function(filepath, content, callback) {
+function writefile(filepath, content, callback) {
   exec(function() {
     client.writeFile(filepath, content, function(error, stat) {
       if (error) {
@@ -110,11 +121,17 @@ exports.writefile = function(filepath, content, callback) {
   });
 };
 
-exports.writeimage = function(imageFile, callback) {
+function writeimage(imageFile, callback) {
   exec(function() {
     client.stat('/__images', function(error, stat) {
       if (error) {
-        console.log(error);
+        if (error.status == 404) {
+          makedir('/__images', function() {
+            writeimage(imageFile, callback);
+          });
+        } else {
+          console.log(error);
+        }
       } else if (stat.isFile && !stat.isRemoved) {
         console.log(stat);
         console.log("ERROR!");
@@ -134,7 +151,7 @@ exports.writeimage = function(imageFile, callback) {
   });
 };
 
-exports.makedir = function(path, callback) {
+function makedir(path, callback) {
   exec(function() {
     client.mkdir(path, function(error, data) {
       if (error) {

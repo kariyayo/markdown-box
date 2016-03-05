@@ -9,7 +9,7 @@ module.exports = {
   makedir: makedir
 };
 
-var client = new Dropbox.Client({ key: "" });
+var client = new Dropbox.Client({ key: "1b52y5k79ekfs63" });
 
 function exec(f) {
   if (client.isAuthenticated()) {

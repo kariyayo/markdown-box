@@ -22,7 +22,7 @@ module.exports = React.createClass({
     return (
       <Modal bsSize="large" onHide={this.props.closeAction} show={this.props.show}>
         <Modal.Header closeButton>
-          <Modal.Title>Folder</Modal.Title>
+          <Modal.Title>Create folder</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Input placeholder="folder name" ref="name" type="text" />

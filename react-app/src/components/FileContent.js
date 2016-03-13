@@ -3,10 +3,9 @@ var marked = require('marked');
 require('highlight.js/styles/github.css');
 var highlight = require('highlight.js');
 
-var Navbar = require('react-bootstrap').Navbar;
-var Nav = require('react-bootstrap').Nav;
-var NavItem = require('react-bootstrap').NavItem;
+var Button = require('react-bootstrap').Button;
 
+var ContentHeader = require('./ContentHeader');
 var InputFileDialog = require('./InputFileDialog');
 
 
@@ -38,21 +37,20 @@ module.exports = React.createClass({
   render: function() {
     return (
       <div>
-        <Navbar fluid>
-          <Navbar.Header>
-            <Navbar.Brand>{this.props.entry.path}</Navbar.Brand>
-          </Navbar.Header>
-          <Nav pullRight>
-            <NavItem onClick={this._showEditDialog}>Edit</NavItem>
-          </Nav>
-        </Navbar>
-        <div dangerouslySetInnerHTML={this._rawMarkupContent()} />
-        <InputFileDialog
-            closeAction={this._hideEditDialog}
-            content={this.props.content}
-            isEdit
-            show={this.state.isDisplayEditDialog}
-            submitAction={this._onSubmit} />
+        <ContentHeader
+            entry={this.props.entry}
+            selectEntryAction={this.props.selectEntryAction}>
+          <Button bsStyle="primary" onClick={this._showEditDialog}>Edit</Button>
+        </ContentHeader>
+        <div>
+          <div dangerouslySetInnerHTML={this._rawMarkupContent()} />
+          <InputFileDialog
+              closeAction={this._hideEditDialog}
+              content={this.props.content}
+              isEdit
+              show={this.state.isDisplayEditDialog}
+              submitAction={this._onSubmit} />
+        </div>
       </div>
     );
   }

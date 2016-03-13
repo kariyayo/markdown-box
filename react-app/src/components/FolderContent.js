@@ -1,11 +1,12 @@
 var React = require('react');
 
-var Navbar = require('react-bootstrap').Navbar;
-var Nav = require('react-bootstrap').Nav;
-var NavItem = require('react-bootstrap').NavItem;
+var ButtonToolbar = require('react-bootstrap').ButtonToolbar;
+var DropdownButton = require('react-bootstrap').DropdownButton;
+var MenuItem = require('react-bootstrap').MenuItem;
 var ListGroup = require('react-bootstrap').ListGroup;
 var ListGroupItem = require('react-bootstrap').ListGroupItem;
 
+var ContentHeader = require('./ContentHeader');
 var InputFileDialog = require('./InputFileDialog');
 var InputFolderDialog = require('./InputFolderDialog');
 
@@ -45,40 +46,43 @@ module.exports = React.createClass({
     var _this = this;
     return (
       <div>
-        <Navbar fluid>
-          <Navbar.Header>
-            <Navbar.Brand>{_this.props.entry.path}</Navbar.Brand>
-          </Navbar.Header>
-          <Nav pullRight>
-            <NavItem onClick={_this._showFileDialog}>Create file</NavItem>
-            <NavItem onClick={_this._showFolderDialog}>Create folder</NavItem>
-          </Nav>
-        </Navbar>
-        <ListGroup>
-          {_this.props.entry.children.map(function(entry, i) {
-            return (
-              <ListGroupItem
-                  key={i}
-                  onClick={function() {
-                    _this.props.selectEntryAction(entry);
-                  }}>
-                {entry.name + (entry.isFolder ? "/" : "")}
-              </ListGroupItem>
-            );
-          })}
-        </ListGroup>
-        <InputFileDialog
-            closeAction={this._hideFileDialog}
-            content={""}
-            parentFolder={this.props.entry}
-            show={this.state.isDispFileDialog}
-            submitAction={this._onSubmitFileDialog} />
-        <InputFolderDialog
-            closeAction={this._hideFolderDialog}
-            content={""}
-            parentFolder={this.props.entry}
-            show={this.state.isDispFolderDialog}
-            submitAction={this._onSubmitFolderDialog} />
+        <ContentHeader
+            entry={this.props.entry}
+            selectEntryAction={this.props.selectEntryAction}>
+          <ButtonToolbar>
+            <DropdownButton title="+" noCaret bsStyle="primary" id="plusButton">
+              <MenuItem onClick={_this._showFileDialog}>Create file</MenuItem>
+              <MenuItem onClick={_this._showFolderDialog}>Create folder</MenuItem>
+            </DropdownButton>
+          </ButtonToolbar>
+        </ContentHeader>
+        <div>
+          <ListGroup>
+            {_this.props.entry.children.map(function(entry, i) {
+              return (
+                <ListGroupItem
+                    key={i}
+                    onClick={function() {
+                      _this.props.selectEntryAction(entry);
+                    }}>
+                  {entry.name + (entry.isFolder ? "/" : "")}
+                </ListGroupItem>
+              );
+            })}
+          </ListGroup>
+          <InputFileDialog
+              closeAction={this._hideFileDialog}
+              content={""}
+              parentFolder={this.props.entry}
+              show={this.state.isDispFileDialog}
+              submitAction={this._onSubmitFileDialog} />
+          <InputFolderDialog
+              closeAction={this._hideFolderDialog}
+              content={""}
+              parentFolder={this.props.entry}
+              show={this.state.isDispFolderDialog}
+              submitAction={this._onSubmitFolderDialog} />
+        </div>
       </div>
     );
   }

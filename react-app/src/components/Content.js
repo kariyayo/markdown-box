@@ -1,8 +1,5 @@
 var React = require('react');
 
-var Breadcrumb = require('react-bootstrap').Breadcrumb;
-var BreadcrumbItem = require('react-bootstrap').BreadcrumbItem;
-
 var FileContent = require('./FileContent');
 var FolderContent = require('./FolderContent');
 
@@ -43,38 +40,6 @@ module.exports = React.createClass({
     });
   },
   render: function() {
-    var _this = this;
-    var breadcrumb;
-
-    if (this.props.entry.path != '/') {
-      var f = function(evt) {
-        var name = evt.target.textContent;
-        var nextPath;
-        if (name == 'Top') {
-          nextPath = '/';
-        } else {
-          var p = _this.props.entry.path.split(name)[0];
-          nextPath = p + name;
-        }
-        _this.props.onEntryClick({
-          isFolder: true,
-          path: nextPath,
-          name: name,
-          children: []
-        });
-      };
-      var paths = this.props.entry.path.split("/");
-      var breadcrumbItems = paths
-        .slice(0, paths.length - 1)
-        .map(function(s, i) {
-          return (
-            <BreadcrumbItem key={i} onClick={f}>
-              {s == "" ? "Top" : s}
-            </BreadcrumbItem>
-          );
-        });
-      breadcrumb = (<Breadcrumb>{breadcrumbItems}</Breadcrumb>);
-    }
     var content;
     if (this.props.entry.isFolder) {
       content = (
@@ -89,12 +54,12 @@ module.exports = React.createClass({
         <FileContent
             content={this.state.content}
             entry={this.props.entry}
-            updateContentAction={this._updateContent} />
+            updateContentAction={this._updateContent}
+            selectEntryAction={this.props.onEntryClick} />
       );
     }
     return (
       <div>
-        {breadcrumb}
         {content}
       </div>
     );

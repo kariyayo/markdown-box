@@ -4,7 +4,7 @@ var Grid = require('react-bootstrap').Grid;
 var Row = require('react-bootstrap').Row;
 var Col = require('react-bootstrap').Col;
 
-var Breadcrumb = require('./Beadcrumb');
+var Breadcrumb = require('./Breadcrumb');
 
 var style = {
   breadcrumbContainer: {

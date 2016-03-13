@@ -54,7 +54,7 @@ module.exports = React.createClass({
   render: function() {
     var nameText;
     if (!this.props.isEdit) {
-      nameText = (<Input placeholder="name" ref="name" type="text" />);
+      nameText = (<Input placeholder="file name" ref="name" type="text" />);
     }
     return (
       <Modal

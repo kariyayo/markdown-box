@@ -24,9 +24,10 @@ module.exports = React.createClass({
   },
   _rawMarkupContent: function() {
     marked.setOptions({
-      highlight: function(code) {
-        return highlight.highlightAuto(code).value;
-      }
+      highlight: function(code, lang) {
+        return highlight.highlightAuto(code, [lang]).value;
+      },
+      langPrefix: ''
     });
     return {__html: marked(this.props.content, {sanitize: false})};
   },

@@ -1,4 +1,5 @@
 var React = require('react');
+var hashHistory = require('react-router').hashHistory
 
 var Grid = require('react-bootstrap').Grid;
 var Row = require('react-bootstrap').Row;
@@ -27,6 +28,18 @@ module.exports = React.createClass({
   componentDidMount: function() {
     this._fetchRoot();
   },
+  componentDidUpdate: function(prevProps, prevState) {
+    if (this.props.routeParams.filePath != prevProps.routeParams.filePath) {
+      var _this = this;
+      var path = decodeURIComponent(this.props.routeParams.filePath || '/');
+      storage.readEntry(path, function(entry) {
+        _this.setState({selectedEntry: entry});
+        if (entry.isFolder && entry.children.length == 0) {
+          _this._fetchChildren(entry);
+        }
+      });
+    }
+  },
   _fetchRoot: function() {
     var _this = this;
     storage.rootFiles(function(entries) {
@@ -45,10 +58,9 @@ module.exports = React.createClass({
     });
   },
   _selectEntry: function(entry) {
-    this.setState({selectedEntry: entry});
-    if (entry.isFolder && entry.children.length == 0) {
-      this._fetchChildren(entry);
-    }
+    hashHistory.push({
+      pathname: encodeURIComponent(entry.path)
+    });
   },
   _isRootFolder: function(entry) {
     return entry.path == "/";

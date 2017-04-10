@@ -1,18 +1,19 @@
 <template>
   <div>
-    <navbar placement="top" type="default">
-      <a slot="brand" href="/" title="Markdown-box" class="navbar-brand">Markdown-box</a>
-    </navbar>
+    <el-menu :default-active="activeIndex2" mode="horizontal">
+      <el-menu-item index="1">Markdown-box</el-menu-item>
+    </el-menu>
   </div>
 </template>
 
 <script>
-import { navbar } from 'vue-strap'
-
 export default {
   name: 'my-header',
-  components: {
-    navbar
+  data () {
+    return {
+      activeIndex: '1',
+      activeIndex2: '1'
+    }
   }
 }
 </script>

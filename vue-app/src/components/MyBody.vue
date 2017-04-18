@@ -10,17 +10,20 @@
 </template>
 
 <script>
+import storage from '../storage.js'
 import MyContent from './MyContent.vue'
 
 export default {
   name: 'my-body',
-  data: () => {
+  data () {
     return {
-      children: [
-        { fileName: 'hogehoge' },
-        { fileName: 'fugafuga' }
-      ]
+      children: []
     }
+  },
+  mounted () {
+    storage.rootFiles(entries => {
+      this.children = entries
+    })
   },
   components: {
     MyContent

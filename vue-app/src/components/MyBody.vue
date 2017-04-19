@@ -22,7 +22,12 @@ export default {
   },
   mounted () {
     storage.rootFiles(entries => {
-      this.children = entries
+      const l = entries.map(x => {
+        return {
+          name: x.name
+        }
+      })
+      this.children = l
     })
   },
   components: {

@@ -1,7 +1,7 @@
 <template>
   <div id="my-content">
     <el-table :data="files" :show-header="false" class="content-table" >
-      <el-table-column prop="name"></el-table-column>
+      <el-table-column prop="label"></el-table-column>
     </el-table>
   </div>
 </template>

@@ -24,7 +24,7 @@ export default {
     storage.rootFiles(entries => {
       const l = entries.map(x => {
         return {
-          name: x.isFolder ? x.name + '/' : x.name
+          label: x.isFolder ? x.name + '/' : x.name
         }
       })
       this.children = l

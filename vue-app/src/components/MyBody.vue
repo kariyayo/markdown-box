@@ -3,7 +3,7 @@
     <el-row>
       <el-col :span="4">left</el-col>
       <el-col :span="20">
-        <my-content :files="children"></my-content>
+        <my-content @file-selected="readFileOrDirectory" :files="children"></my-content>
       </el-col>
     </el-row>
   </div>
@@ -29,6 +29,11 @@ export default {
       })
       this.children = l
     })
+  },
+  methods: {
+    readFileOrDirectory (selectedFile) {
+      console.log('MyBody: %O', selectedFile)
+    }
   },
   components: {
     MyContent

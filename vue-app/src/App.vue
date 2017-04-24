@@ -1,7 +1,6 @@
 <template>
   <div id="app">
-    <my-header />
-    <img src="./assets/logo.png">
+    <my-header class="header" />
     <router-view></router-view>
   </div>
 </template>
@@ -24,5 +23,9 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+}
+
+.header {
+  margin-bottom: 16px;
 }
 </style>

@@ -24,7 +24,8 @@ export default {
     storage.rootFiles(entries => {
       const l = entries.map(x => {
         return {
-          label: x.isFolder ? x.name + '/' : x.name
+          label: x.isFolder ? x.name + '/' : x.name,
+          path: x.path
         }
       })
       this.children = l
@@ -32,7 +33,9 @@ export default {
   },
   methods: {
     readFileOrDirectory (selectedFile) {
-      console.log('MyBody: %O', selectedFile)
+      storage.readdir(selectedFile.path, entries => {
+        console.log('MyBody: %O', entries)
+      })
     }
   },
   components: {

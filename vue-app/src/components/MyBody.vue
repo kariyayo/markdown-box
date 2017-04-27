@@ -22,19 +22,21 @@ export default {
   },
   mounted () {
     storage.rootFiles(entries => {
-      const l = entries.map(x => {
-        return {
-          label: x.isFolder ? x.name + '/' : x.name,
-          path: x.path
-        }
-      })
-      this.children = l
+      this.children = this._entriesToChildren(entries)
     })
   },
   methods: {
     readFileOrDirectory (selectedFile) {
       storage.readdir(selectedFile.path, entries => {
-        console.log('MyBody: %O', entries)
+        this.children = this._entriesToChildren(entries)
+      })
+    },
+    _entriesToChildren (entries) {
+      return entries.map(x => {
+        return {
+          label: x.isFolder ? x.name + '/' : x.name,
+          path: x.path
+        }
       })
     }
   },

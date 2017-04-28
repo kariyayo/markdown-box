@@ -26,16 +26,21 @@ export default {
     })
   },
   methods: {
-    readFileOrDirectory (selectedFile) {
-      storage.readdir(selectedFile.path, entries => {
-        this.children = this._entriesToChildren(entries)
-      })
+    readFileOrDirectory (selectedEntry) {
+      if (selectedEntry.isFolder) {
+        storage.readdir(selectedEntry.path, entries => {
+          this.children = this._entriesToChildren(entries)
+        })
+      } else {
+        console.log(selectedEntry)
+      }
     },
     _entriesToChildren (entries) {
       return entries.map(x => {
         return {
           label: x.isFolder ? x.name + '/' : x.name,
-          path: x.path
+          path: x.path,
+          isFolder: x.isFolder
         }
       })
     }

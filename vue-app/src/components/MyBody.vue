@@ -32,7 +32,9 @@ export default {
           this.children = this._entriesToChildren(entries)
         })
       } else {
-        console.log(selectedEntry)
+        storage.readfile(selectedEntry.path, fileContent => {
+          console.log(fileContent)
+        })
       }
     },
     _entriesToChildren (entries) {
